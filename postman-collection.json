@@ -1,0 +1,518 @@
+{
+  "info": {
+    "_postman_id": "coupon-api-collection",
+    "name": "Coupon Management API",
+    "description": "Complete test suite for Coupon Management API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. CREATE COUPONS",
+      "item": [
+        {
+          "name": "Create Cart-Wise Coupon (10% off)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SUMMER25\",\n  \"type\": \"CART_WISE\",\n  \"description\": \"10% off on carts over Rs. 100\",\n  \"discount\": {\n    \"type\": \"PERCENTAGE\",\n    \"value\": 10\n  },\n  \"is_active\": true,\n  \"conditions\": {\n    \"minimum_cart_value\": 100\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Cart-Wise Coupon with Max Cap (20% off, max Rs. 500)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"DIWALI20\",\n  \"type\": \"CART_WISE\",\n  \"description\": \"20% off on carts, max discount Rs. 500\",\n  \"discount\": {\n    \"type\": \"PERCENTAGE\",\n    \"value\": 20\n  },\n  \"is_active\": true,\n  \"conditions\": {\n    \"minimum_cart_value\": 200,\n    \"maximum_discount\": 500\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Product-Wise Coupon (20% off specific products)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"PRODUCT20\",\n  \"type\": \"PRODUCT_WISE\",\n  \"description\": \"20% off on Products A and B only\",\n  \"discount\": {\n    \"type\": \"PERCENTAGE\",\n    \"value\": 20\n  },\n  \"is_active\": true,\n  \"conditions\": {\n    \"applicable_products\": [\"PROD_001\", \"PROD_002\"]\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create BxGy Coupon (Buy 2 Get 1 Free)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"BXG2G1\",\n  \"type\": \"BXGY\",\n  \"description\": \"Buy 2 from Electronics, Get 1 from Accessories free\",\n  \"discount\": {\n    \"type\": \"FIXED_AMOUNT\",\n    \"value\": 0\n  },\n  \"is_active\": true,\n  \"conditions\": {\n    \"buy_quantity\": 2,\n    \"get_quantity\": 1,\n    \"buy_from\": [\"PROD_001\", \"PROD_002\", \"PROD_003\"],\n    \"get_from\": [\"PROD_004\", \"PROD_005\", \"PROD_006\"],\n    \"repetition_limit\": 3,\n    \"get_for_free\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create BxGy Coupon with Repetition Limit",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"FREEBUY\",\n  \"type\": \"BXGY\",\n  \"description\": \"Buy 2 Get 1 Free - Max 3 times\",\n  \"discount\": {\n    \"type\": \"FIXED_AMOUNT\",\n    \"value\": 0\n  },\n  \"is_active\": true,\n  \"conditions\": {\n    \"buy_quantity\": 2,\n    \"get_quantity\": 1,\n    \"buy_from\": [\"A\", \"B\", \"C\"],\n    \"get_from\": [\"D\", \"E\", \"F\"],\n    \"repetition_limit\": 3\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. RETRIEVE COUPONS",
+      "item": [
+        {
+          "name": "Get All Coupons",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:3000/coupons",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Coupons by Type (CART_WISE)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:3000/coupons?type=CART_WISE",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "CART_WISE"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Coupons by Type (PRODUCT_WISE)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:3000/coupons?type=PRODUCT_WISE",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "PRODUCT_WISE"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Active Coupons Only",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:3000/coupons?is_active=true",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons"],
+              "query": [
+                {
+                  "key": "is_active",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Inactive Coupons",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:3000/coupons?is_active=false",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons"],
+              "query": [
+                {
+                  "key": "is_active",
+                  "value": "false"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Coupon by Code",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:3000/coupons?code=SUMMER",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons"],
+              "query": [
+                {
+                  "key": "code",
+                  "value": "SUMMER"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get with Pagination (limit=5, offset=0)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:3000/coupons?limit=5&offset=0",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "5"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Coupon by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:3000/coupons/690f95d726df931580140a70",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons", "690f95d726df931580140a70"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. UPDATE COUPONS",
+      "item": [
+        {
+          "name": "Update Coupon Discount",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"discount\": {\n    \"type\": \"PERCENTAGE\",\n    \"value\": 15\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons/690f95d726df931580140a70",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons", "690f95d726df931580140a70"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deactivate Coupon",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"is_active\": false\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons/690f95d726df931580140a70",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons", "690f95d726df931580140a70"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4. DELETE COUPONS",
+      "item": [
+        {
+          "name": "Delete Coupon",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "http://localhost:3000/coupons/690f95d726df931580140a70",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons", "690f95d726df931580140a70"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "5. CHECK APPLICABLE COUPONS",
+      "item": [
+        {
+          "name": "Check Applicable - Format 1 (Direct Array)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  { \"product_id\": \"PROD_001\", \"price\": 100, \"quantity\": 2 },\n  { \"product_id\": \"PROD_002\", \"price\": 50, \"quantity\": 1 }\n]"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons/check/applicable",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons", "check", "applicable"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Check Applicable - Format 2 (cartItems object)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cartItems\": [\n    { \"product_id\": \"PROD_001\", \"price\": 100, \"quantity\": 2 },\n    { \"product_id\": \"PROD_002\", \"price\": 50, \"quantity\": 1 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons/check/applicable",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons", "check", "applicable"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Check Applicable - Empty Cart (Should Fail)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[]"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons/check/applicable",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons", "check", "applicable"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "6. APPLY COUPONS",
+      "item": [
+        {
+          "name": "Apply Cart-Wise Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cartItems\": [\n    { \"product_id\": \"PROD_001\", \"price\": 100, \"quantity\": 2 },\n    { \"product_id\": \"PROD_002\", \"price\": 50, \"quantity\": 1 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons/690f95d726df931580140a70/apply",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons", "690f95d726df931580140a70", "apply"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Apply Product-Wise Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cartItems\": [\n    { \"product_id\": \"PROD_001\", \"price\": 100, \"quantity\": 2 },\n    { \"product_id\": \"PROD_002\", \"price\": 50, \"quantity\": 1 },\n    { \"product_id\": \"PROD_003\", \"price\": 75, \"quantity\": 1 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons/PRODUCT_COUPON_ID/apply",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons", "PRODUCT_COUPON_ID", "apply"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Apply BxGy Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cartItems\": [\n    { \"product_id\": \"A\", \"price\": 100, \"quantity\": 2 },\n    { \"product_id\": \"D\", \"price\": 500, \"quantity\": 1 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/coupons/BXGY_COUPON_ID/apply",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["coupons", "BXGY_COUPON_ID", "apply"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

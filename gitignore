@@ -1,0 +1,103 @@
+# ============================================
+# Environment Variables (SECRETS - NEVER COMMIT)
+# ============================================
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+
+# ============================================
+# Node.js Dependencies (fully ignored)
+# ============================================
+node_modules/
+npm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# ============================================
+# IDE & Editor Files
+# ============================================
+# VS Code
+.vscode/
+.vscode/settings.json
+.vscode/extensions.json
+
+# WebStorm/IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ============================================
+# Database Files
+# ============================================
+# MongoDB local files
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Connection strings (SECRETS)
+atlasmongodburl.txt
+mongodb-url.txt
+
+# ============================================
+# Temporary Files
+# ============================================
+temp/
+tmp/
+*.tmp
+*.log
+*.bak
+*.backup
+
+# ============================================
+# Operating System Files
+# ============================================
+# Windows
+Thumbs.db
+desktop.ini
+
+# Linux
+.directory
+
+# ============================================
+# Build & Distribution
+# ============================================
+dist/
+build/
+coverage/
+.nyc_output/
+
+# ============================================
+# Testing
+# ============================================
+.mocha
+.jest
+coverage/
+*.lcov
+
+# ============================================
+# Misc
+# ============================================
+.DS_Store
+*.pem
+.env.example
+!.env.example
